@@ -65,4 +65,15 @@
     <string name="compatibility_mode_summary_on">Run older apps in Compatibility mode. This require rebooting. </string>
     <!-- Sound & display settings screen, compatibility mode option summary text when check box is clear -->
     <string name="compatibility_mode_summary_off">Run older apps in Compatibility mode. This require rebooting. </string>
+
+    <!-- LED Notification On/Off -->
+    <string name="LED_button_notification_title">LED Button Notification</string>
+    <string name="LED_button_notification_enable">Enable Notification Light Blink. </string>
+    <string name="LED_button_notification_disable">Disable Notification Light Blink. </string>
+
+    <!-- Volume Button Wake enable/disable -->
+    <string name="volume_buttons_wake_title">Volume Buttons Wake</string>
+    <string name="volume_buttons_wake_enable">Enable Volume Buttons to wake screen while music is playing. </string>
+    <string name="volume_buttons_wake_disable">Disable Volume Buttons from waking screen while music is playing. </string>
+
 </resources>

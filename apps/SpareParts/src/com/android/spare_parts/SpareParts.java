@@ -58,6 +58,8 @@ public class SpareParts extends PreferenceActivity
     private static final String FONT_SIZE_PREF = "font_size";
     private static final String END_BUTTON_PREF = "end_button";
     private static final String KEY_COMPATIBILITY_MODE = "compatibility_mode";
+    private static final String KEY_LED_BUTTON_NOTIFICATION = "LED_button_notification";
+    private static final String KEY_VOLUME_BUTTONS_WAKE = "volume_buttons_wake";
 
     private final Configuration mCurConfig = new Configuration();
     
@@ -68,6 +70,8 @@ public class SpareParts extends PreferenceActivity
     private ListPreference mFontSizePref;
     private ListPreference mEndButtonPref;
     private CheckBoxPreference mCompatibilityMode;
+    private CheckBoxPreference mLEDButtonNotification;
+    private CheckBoxPreference mVolumeButtonsWake;
 
     private IWindowManager mWindowManager;
 
@@ -128,6 +132,16 @@ public class SpareParts extends PreferenceActivity
         mCompatibilityMode.setChecked(Settings.System.getInt(getContentResolver(),
                 Settings.System.COMPATIBILITY_MODE, 1) != 0);
 
+        mLEDButtonNotification = (CheckBoxPreference) findPreference(KEY_LED_BUTTON_NOTIFICATION);
+        mLEDButtonNotification.setPersistent(true);
+        mLEDButtonNotification.setChecked(Settings.System.getInt(getContentResolver(),
+                Settings.System.TRACKBALL_NOTIFICATION_ON, 1) != 0);
+
+        mVolumeButtonsWake = (CheckBoxPreference) findPreference(KEY_VOLUME_BUTTONS_WAKE);
+        mVolumeButtonsWake.setPersistent(true);
+        mVolumeButtonsWake.setChecked(Settings.System.getInt(getContentResolver(),
+                Settings.System.VOLUME_WAKE_SCREEN, 1) != 0);
+
         mWindowManager = IWindowManager.Stub.asInterface(ServiceManager.getService("window"));
         
         final PreferenceGroup parentPreference = getPreferenceScreen();
@@ -148,6 +162,12 @@ public class SpareParts extends PreferenceActivity
         mHapticFeedbackPref.setChecked(Settings.System.getInt(
                 getContentResolver(), 
                 Settings.System.HAPTIC_FEEDBACK_ENABLED, 0) != 0);
+        mLEDButtonNotification.setChecked(Settings.System.getInt(
+                getContentResolver(), 
+                Settings.System.TRACKBALL_NOTIFICATION_ON, 0) != 0);
+        mVolumeButtonsWake.setChecked(Settings.System.getInt(
+                getContentResolver(), 
+                Settings.System.VOLUME_WAKE_SCREEN, 0) != 0);
     }
     
     public boolean onPreferenceChange(Preference preference, Object objValue) {
@@ -170,6 +190,16 @@ public class SpareParts extends PreferenceActivity
             Settings.System.putInt(getContentResolver(),
                     Settings.System.COMPATIBILITY_MODE,
                     mCompatibilityMode.isChecked() ? 1 : 0);
+            return true;
+        } else if (preference == mLEDButtonNotification) {
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.TRACKBALL_NOTIFICATION_ON,
+                    mLEDButtonNotification.isChecked() ? 1 : 0);
+            return true;
+        } else if (preference == mVolumeButtonsWake) {
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.VOLUME_WAKE_SCREEN,
+                    mVolumeButtonsWake.isChecked() ? 1 : 0);
             return true;
         }
         return false;

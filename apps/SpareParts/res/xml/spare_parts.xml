@@ -94,12 +94,24 @@
             android:summaryOn="@string/summary_on_haptic_feedback"
             android:summaryOff="@string/summary_off_haptic_feedback"/>
         
-
         <CheckBoxPreference
                 android:key="compatibility_mode"
                 android:title="@string/compatibility_mode_title"
                 android:summaryOn="@string/compatibility_mode_summary_on"
                 android:summaryOff="@string/compatibility_mode_summary_off" />
+
+        <CheckBoxPreference
+                android:key="LED_button_notification"
+                android:title="@string/LED_button_notification_title"
+                android:summaryOn="@string/LED_button_notification_enable"
+                android:summaryOff="@string/LED_button_notification_disable" />
+
+        <CheckBoxPreference
+                android:key="volume_buttons_wake"
+                android:title="@string/volume_buttons_wake_title"
+                android:summaryOn="@string/volume_buttons_wake_enable"
+                android:summaryOff="@string/volume_buttons_wake_disable" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
