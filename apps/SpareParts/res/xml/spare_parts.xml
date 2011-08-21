@@ -112,6 +112,11 @@
                 android:summaryOn="@string/volume_buttons_wake_enable"
                 android:summaryOff="@string/volume_buttons_wake_disable" />
 
+        <CheckBoxPreference 
+                android:key="pref_switch_storage"
+                android:title="@string/pref_switch_storage_title"
+	        android:summaryOn="@string/pref_switch_storage_summary_on"
+	        android:summaryOff="@string/pref_switch_storage_summary_off" />
     </PreferenceCategory>
 
 </PreferenceScreen>

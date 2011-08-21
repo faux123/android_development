@@ -39,6 +39,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.IWindowManager;
+import android.os.SystemProperties;
 
 import java.util.List;
 
@@ -50,7 +51,8 @@ public class SpareParts extends PreferenceActivity
     private static final String BATTERY_HISTORY_PREF = "battery_history_settings";
     private static final String BATTERY_INFORMATION_PREF = "battery_information_settings";
     private static final String USAGE_STATISTICS_PREF = "usage_statistics_settings";
-    
+    private static final String SWITCH_STORAGE_PREF = "pref_switch_storage";
+
     private static final String WINDOW_ANIMATIONS_PREF = "window_animations";
     private static final String TRANSITION_ANIMATIONS_PREF = "transition_animations";
     private static final String FANCY_IME_ANIMATIONS_PREF = "fancy_ime_animations";
@@ -72,6 +74,7 @@ public class SpareParts extends PreferenceActivity
     private CheckBoxPreference mCompatibilityMode;
     private CheckBoxPreference mLEDButtonNotification;
     private CheckBoxPreference mVolumeButtonsWake;
+    private CheckBoxPreference mSwitchStoragePref;
 
     private IWindowManager mWindowManager;
 
@@ -142,6 +145,15 @@ public class SpareParts extends PreferenceActivity
         mVolumeButtonsWake.setChecked(Settings.System.getInt(getContentResolver(),
                 Settings.System.VOLUME_WAKE_SCREEN, 1) != 0);
 
+        mSwitchStoragePref = (CheckBoxPreference) prefSet.findPreference(SWITCH_STORAGE_PREF);
+        mSwitchStoragePref.setPersistent(true);
+        mSwitchStoragePref.setChecked((SystemProperties.getInt("persist.sys.vold.switchexternal", 0) == 1));
+
+        if (SystemProperties.get("ro.vold.switchablepair","").equals("")) {
+            mSwitchStoragePref.setSummary(R.string.pref_storage_switch_unavailable);
+            mSwitchStoragePref.setEnabled(false);
+        }
+
         mWindowManager = IWindowManager.Stub.asInterface(ServiceManager.getService("window"));
         
         final PreferenceGroup parentPreference = getPreferenceScreen();
@@ -200,6 +212,10 @@ public class SpareParts extends PreferenceActivity
             Settings.System.putInt(getContentResolver(),
                     Settings.System.VOLUME_WAKE_SCREEN,
                     mVolumeButtonsWake.isChecked() ? 1 : 0);
+            return true;
+        } else if (preference == mSwitchStoragePref) {
+            SystemProperties.set("persist.sys.vold.switchexternal",
+		mSwitchStoragePref.isChecked() ? "1" : "0");
             return true;
         }
         return false;
